@@ -38,7 +38,7 @@ public class ClsClientSocket {
 		String msg = null;
 		while ((line = this.brFile.readLine()) != null) {
 			// send
-			this.pw.print(line);
+			this.pw.println(line);
 			this.pw.flush();
 			System.out.println("client SEND >>>>> " + line);
 			

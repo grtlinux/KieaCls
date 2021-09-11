@@ -34,7 +34,7 @@ public class ClsServerSocketThread extends Thread {
 				System.out.println("RECV >>>>> " + msg);
 				
 				// send
-				this.pw.print(line);
+				this.pw.println(line);
 				this.pw.flush();
 				System.out.println("SEND >>>>> " + line);
 			}
