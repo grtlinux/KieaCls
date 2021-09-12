@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import org.tain.utils.ClsProp;
+import org.tain.utils.Sleep;
 
 public class ClsServerSocketThread extends Thread {
 
@@ -14,6 +15,8 @@ public class ClsServerSocketThread extends Thread {
 	private Socket socket = null;
 	private BufferedReader br = null;
 	private PrintWriter pw = null;
+	private String typeSR = null;
+	private long loopMSec = -1;
 	
 	public ClsServerSocketThread(Socket socket) throws Exception {
 		String serverFile = ClsProp.getInstance().get("server.file");
@@ -21,6 +24,8 @@ public class ClsServerSocketThread extends Thread {
 		this.socket = socket;
 		this.br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 		this.pw = new PrintWriter(this.socket.getOutputStream());
+		this.typeSR = ClsProp.getInstance().get("type.sr");
+		this.loopMSec = Long.parseLong(ClsProp.getInstance().get("loop.wait.msec"));
 	}
 	
 	public void run() {
@@ -28,15 +33,21 @@ public class ClsServerSocketThread extends Thread {
 			String line = null;
 			String msg = null;
 			while ((line = this.brFile.readLine()) != null) {
-				// recv length
-				// recv data
-				msg = this.br.readLine();
-				System.out.println("RECV >>>>> " + msg);
+				if (this.typeSR.contains("recv")) {
+					// recv length
+					// recv data
+					msg = this.br.readLine();
+					System.out.println("server RECV >>>>> " + msg);
+				}
 				
-				// send
-				this.pw.println(line);
-				this.pw.flush();
-				System.out.println("SEND >>>>> " + line);
+				if (this.typeSR.contains("send")) {
+					// send
+					this.pw.println(line);
+					this.pw.flush();
+					System.out.println("server SEND >>>>> " + line);
+				}
+				
+				Sleep.run(this.loopMSec);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

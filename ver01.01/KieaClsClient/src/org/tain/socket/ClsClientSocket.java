@@ -13,11 +13,13 @@ public class ClsClientSocket {
 
 	private String hostIp = null;
 	private int hostPort = -1;
+	private String typeSR = null;
 	
 	public ClsClientSocket() throws Exception {
 		String clientFile = ClsProp.getInstance().get("client.file");
 		this.hostIp = ClsProp.getInstance().get("host.ip");
 		this.hostPort = Integer.parseInt(ClsProp.getInstance().get("host.port"));
+		this.typeSR = ClsProp.getInstance().get("type.sr");
 		
 		this.brFile = new BufferedReader(new FileReader(clientFile));
 		this.socket = new Socket(this.hostIp, this.hostPort);
@@ -37,15 +39,19 @@ public class ClsClientSocket {
 		String line = null;
 		String msg = null;
 		while ((line = this.brFile.readLine()) != null) {
-			// send
-			this.pw.println(line);
-			this.pw.flush();
-			System.out.println("client SEND >>>>> " + line);
+			if (this.typeSR.contains("send")) {
+				// send
+				this.pw.println(line);
+				this.pw.flush();
+				System.out.println("client SEND >>>>> " + line);
+			}
 			
-			// recv length
-			// recv data
-			msg = this.br.readLine();
-			System.out.println("client RECV >>>>> " + msg);
+			if (this.typeSR.contains("recv")) {
+				// recv length
+				// recv data
+				msg = this.br.readLine();
+				System.out.println("client RECV >>>>> " + msg);
+			}
 			
 			Sleep.run(this.loopMSec);
 		}

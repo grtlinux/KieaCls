@@ -8,7 +8,7 @@ public class ClsProp {
 	private Properties prop = null;
 	
 	private ClsProp() throws Exception {
-		String configFile = System.getProperty("config.file", "/Users/kang-air/KANG/cls/ClsClient.properties");
+		String configFile = System.getProperty("config.file", "/Users/kang-air/KANG/cls_java/ClsClient.properties");
 		
 		System.out.println(">>>>> configFile: " + configFile);
 		
