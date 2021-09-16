@@ -36,7 +36,8 @@ public class ClsServerSocketThread extends Thread {
 			String msg = null;
 			byte[] bMsg = new byte[1024];
 			//while ((line = this.brFile.readLine()) != null) {
-			while (true) {
+			//while (true) {
+			for (int i=0;;i++) {
 				if (this.typeSR.contains("recv")) {
 					// recv header info
 					this.is.read(bMsg, 0, 5);
@@ -47,14 +48,14 @@ public class ClsServerSocketThread extends Thread {
 					this.is.read(bMsg, 9, len);
 					
 					msg = new String(bMsg, 0, 9 + len);
-					System.out.println("server RECV >>>>> " + msg);
+					System.out.println("server " + i + ". RECV >>>>> " + msg);
 				}
 				
 				if (this.typeSR.contains("send")) {
 					// send
 					this.pw.println(line);
 					this.pw.flush();
-					System.out.println("server SEND >>>>> " + line);
+					System.out.println("server " + i + ". SEND >>>>> " + line);
 				}
 				
 				Sleep.run(this.loopMSec);
