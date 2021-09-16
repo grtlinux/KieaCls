@@ -2,6 +2,7 @@ package org.tain.socket;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -17,12 +18,13 @@ public class ClsServerSocketThread extends Thread {
 	private PrintWriter pw = null;
 	private String typeSR = null;
 	private long loopMSec = -1;
-	
+	private InputStream is = null;
 	public ClsServerSocketThread(Socket socket) throws Exception {
 		String serverFile = ClsProp.getInstance().get("server.file");
 		this.brFile = new BufferedReader(new FileReader(serverFile));
 		this.socket = socket;
 		this.br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+		this.is = this.socket.getInputStream();
 		this.pw = new PrintWriter(this.socket.getOutputStream());
 		this.typeSR = ClsProp.getInstance().get("type.sr");
 		this.loopMSec = Long.parseLong(ClsProp.getInstance().get("loop.wait.msec"));
@@ -32,11 +34,19 @@ public class ClsServerSocketThread extends Thread {
 		try {
 			String line = null;
 			String msg = null;
-			while ((line = this.brFile.readLine()) != null) {
+			byte[] bMsg = new byte[1024];
+			//while ((line = this.brFile.readLine()) != null) {
+			while (true) {
 				if (this.typeSR.contains("recv")) {
+					// recv header info
+					this.is.read(bMsg, 0, 5);
 					// recv length
+					this.is.read(bMsg, 5, 4);
+					int len = Integer.parseInt(new String(bMsg, 5, 4));
 					// recv data
-					msg = this.br.readLine();
+					this.is.read(bMsg, 9, len);
+					
+					msg = new String(bMsg, 0, 9 + len);
 					System.out.println("server RECV >>>>> " + msg);
 				}
 				
