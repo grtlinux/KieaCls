@@ -1,33 +1,40 @@
 package org.tain.socket;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.tain.tasks.ClsTable;
 import org.tain.utils.ClsProp;
 import org.tain.utils.Sleep;
 
 public class ClsServerSocketThread extends Thread {
 
-	private BufferedReader brFile = null;
+	//private BufferedReader brFile = null;
 	private Socket socket = null;
-	private BufferedReader br = null;
+	//private BufferedReader br = null;
 	private PrintWriter pw = null;
 	private String typeSR = null;
 	private long loopMSec = -1;
 	private InputStream is = null;
+	
+	private String tabFile = "/Users/kang-air/KANG/cls_config/clsTable.dat";
+	private ClsTable clsTable = null;
+	private String resDatFile = "/Users/kang-air/KANG/cls_config/res.dat";
+	
 	public ClsServerSocketThread(Socket socket) throws Exception {
-		String serverFile = ClsProp.getInstance().get("server.file");
-		this.brFile = new BufferedReader(new FileReader(serverFile));
+		//String serverFile = ClsProp.getInstance().get("server.file");
+		//this.brFile = new BufferedReader(new FileReader(serverFile));
 		this.socket = socket;
-		this.br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+		//this.br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 		this.is = this.socket.getInputStream();
 		this.pw = new PrintWriter(this.socket.getOutputStream());
 		this.typeSR = ClsProp.getInstance().get("type.sr");
 		this.loopMSec = Long.parseLong(ClsProp.getInstance().get("loop.wait.msec"));
+		
+		this.clsTable = new ClsTable(this.tabFile);
+		this.clsTable.loadTable();
+		this.clsTable.printTable();
 	}
 	
 	public void run() {
@@ -49,6 +56,12 @@ public class ClsServerSocketThread extends Thread {
 					
 					msg = new String(bMsg, 0, 9 + len);
 					System.out.println("server " + i + ". RECV >>>>> " + msg);
+				}
+				
+				if (Boolean.TRUE) {
+					// clsTable.dat에서 찾는다.
+					String res = this.clsTable.findRes(msg);
+					this.clsTable.appendRes(this.resDatFile, res);
 				}
 				
 				if (this.typeSR.contains("send")) {

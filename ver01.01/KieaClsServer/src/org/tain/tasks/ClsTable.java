@@ -115,6 +115,13 @@ public class ClsTable {
 		final String resFile = "/Users/kang-air/KANG/cls_config/res.dat";
 		Files.write(Paths.get(resFile), res.getBytes(), StandardOpenOption.APPEND);
 	}
+	
+	public void appendRes(String resDatFile, String res) throws Exception {
+		int len = res.length();
+		res = res.substring(1, len-1) + "\n";
+		
+		Files.write(Paths.get(resDatFile), res.getBytes(), StandardOpenOption.APPEND);
+	}
 }
 
 class ReqRes {
