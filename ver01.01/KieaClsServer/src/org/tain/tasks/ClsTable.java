@@ -1,8 +1,10 @@
 package org.tain.tasks;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -84,7 +86,7 @@ public class ClsTable {
 	}
 	
 	@Deprecated
-	public void _20210924_appendRes(String res) throws Exception {
+	public void _20210924_1_appendRes(String res) throws Exception {
 		int len = res.length();
 		res = res.substring(1, len-1) + "\n";
 		
@@ -94,6 +96,16 @@ public class ClsTable {
 		raf.seek(file.length());
 		raf.writeChars(res);
 		raf.close();
+	}
+	
+	public void _20210924_2_appendRes(String res) throws Exception {
+		int len = res.length();
+		res = res.substring(1, len-1) + "\n";
+		
+		final String resFile = "/Users/kang-air/KANG/cls_config/res.dat";
+		BufferedWriter bw = new BufferedWriter(new FileWriter(resFile, true));
+		bw.write(res);
+		bw.close();
 	}
 	
 	public void appendRes(String res) throws Exception {
