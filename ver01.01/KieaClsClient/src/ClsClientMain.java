@@ -8,6 +8,10 @@ public class ClsClientMain {
 		
 		ClsProp.getInstance().printAll();
 		
-		new ClsClientSocket().execute();
+		if (ClsProp.getInstance().get("client.file").equals("")) {
+			new ClsClientSocket().executeRes();
+		} else {
+			new ClsClientSocket().executeReq();
+		}
 	}
 }

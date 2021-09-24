@@ -32,6 +32,8 @@ public class ClsServerSocketThread extends Thread {
 		this.typeSR = ClsProp.getInstance().get("type.sr");
 		this.loopMSec = Long.parseLong(ClsProp.getInstance().get("loop.wait.msec"));
 		
+		this.tabFile = ClsProp.getInstance().get("table.file");
+		this.resDatFile = ClsProp.getInstance().get("res.data.file");
 		this.clsTable = new ClsTable(this.tabFile);
 		this.clsTable.loadTable();
 		this.clsTable.printTable();
@@ -61,7 +63,8 @@ public class ClsServerSocketThread extends Thread {
 				if (Boolean.TRUE) {
 					// clsTable.dat에서 찾는다.
 					String res = this.clsTable.findRes(msg);
-					this.clsTable.appendRes(this.resDatFile, res);
+					if (res != null)
+						this.clsTable.appendRes(this.resDatFile, res);
 				}
 				
 				if (this.typeSR.contains("send")) {

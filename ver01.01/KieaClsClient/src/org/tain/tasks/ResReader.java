@@ -6,9 +6,9 @@ import java.io.RandomAccessFile;
 public class ResReader {
 
 	public static void main(String[] args) throws Exception {
-		String resFile = "/Users/kang-air/KANG/cls_config/res.dat";
+		String resDatFile = "/Users/kang-air/KANG/cls_config/res.dat";
 		
-		ResReader resReader = new ResReader(resFile);
+		ResReader resReader = new ResReader(resDatFile);
 		
 		while (true) {
 			String res = resReader.readLine();
@@ -24,8 +24,8 @@ public class ResReader {
 	private long position = -1;
 	private long oldLastModified = -1;
 	
-	public ResReader(String resFile) throws Exception {
-		this.resFile = resFile;
+	public ResReader(String resDatFile) throws Exception {
+		this.resFile = resDatFile;
 		this.file = new File(this.resFile);
 		
 		this.position = this.file.length();
