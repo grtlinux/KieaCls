@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +83,8 @@ public class ClsTable {
 		return null;
 	}
 	
-	public void appendRes(String res) throws Exception {
+	@Deprecated
+	public void _20210924_appendRes(String res) throws Exception {
 		int len = res.length();
 		res = res.substring(1, len-1) + "\n";
 		
@@ -90,6 +94,14 @@ public class ClsTable {
 		raf.seek(file.length());
 		raf.writeChars(res);
 		raf.close();
+	}
+	
+	public void appendRes(String res) throws Exception {
+		int len = res.length();
+		res = res.substring(1, len-1) + "\n";
+		
+		final String resFile = "/Users/kang-air/KANG/cls_config/res.dat";
+		Files.write(Paths.get(resFile), res.getBytes(), StandardOpenOption.APPEND);
 	}
 }
 
