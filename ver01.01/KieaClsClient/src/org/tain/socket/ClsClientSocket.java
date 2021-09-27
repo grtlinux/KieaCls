@@ -24,7 +24,7 @@ public class ClsClientSocket {
 		this.hostPort = Integer.parseInt(ClsProp.getInstance().get("host.port"));
 		this.typeSR = ClsProp.getInstance().get("type.sr");
 		
-		if ("".equals(clientFile))
+		if (!"".equals(clientFile) && clientFile != null)
 			this.brFile = new BufferedReader(new FileReader(clientFile));
 		this.socket = new Socket(this.hostIp, this.hostPort);
 		this.br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));

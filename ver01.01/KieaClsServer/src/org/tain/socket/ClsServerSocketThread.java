@@ -65,6 +65,7 @@ public class ClsServerSocketThread extends Thread {
 					String res = this.clsTable.findRes(msg);
 					if (res != null)
 						this.clsTable.appendRes(this.resDatFile, res);
+					System.out.println("server " + i + ". Write RES >>>>> " + res);
 				}
 				
 				if (this.typeSR.contains("send")) {

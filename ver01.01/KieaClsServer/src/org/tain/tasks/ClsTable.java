@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -120,7 +121,8 @@ public class ClsTable {
 		int len = res.length();
 		res = res.substring(1, len-1) + "\n";
 		
-		Files.write(Paths.get(resDatFile), res.getBytes(), StandardOpenOption.APPEND);
+		Path path = Paths.get(resDatFile);
+		Files.write(path, res.getBytes(), Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
 	}
 }
 
