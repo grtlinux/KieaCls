@@ -34,6 +34,7 @@ public class ResReader {
 	
 	public String readLine() throws Exception {
 		String res = null;
+		System.out.println(">>>>> position: " + this.position + ", oldLastModat: " + this.oldLastModified);
 		while (true) {
 			long lastModified = this.file.lastModified();
 			if (lastModified != this.oldLastModified) {

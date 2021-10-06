@@ -65,9 +65,9 @@ public class ClsClientSocket {
 	}
 	
 	public void executeRes() throws Exception {
-		System.out.println(">>>>> execute_Res <<<<<");
+		System.out.println(">>>>> execute_Res <<<<< " + this.resDatFile);
 		
-		ResReader resReader = new ResReader(resDatFile);
+		ResReader resReader = new ResReader(this.resDatFile);
 		
 		while (true) {
 			String res = resReader.readLine();
