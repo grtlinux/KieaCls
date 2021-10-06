@@ -99,6 +99,7 @@ public class ClsTable {
 		raf.close();
 	}
 	
+	@Deprecated
 	public void _20210924_2_appendRes(String res) throws Exception {
 		int len = res.length();
 		res = res.substring(1, len-1) + "\n";
@@ -109,6 +110,7 @@ public class ClsTable {
 		bw.close();
 	}
 	
+	@Deprecated
 	public void appendRes(String res) throws Exception {
 		int len = res.length();
 		res = res.substring(1, len-1) + "\n";
