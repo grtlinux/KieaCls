@@ -75,7 +75,7 @@ public class ClsClientSocket {
 			
 			if (this.typeSR.contains("send")) {
 				// send
-				this.pw.println(res);
+				this.pw.print(res);
 				this.pw.flush();
 				System.out.println("client SEND >>>>> " + res);
 			}
